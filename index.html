@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedoClub | Agentes de IA Personalizados</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: #ffffff;
+        }
+        .neon-text {
+            color: #00FF41;
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        }
+        .neon-border {
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            transition: all 0.3s ease;
+        }
+        .neon-border:hover {
+            border-color: #00FF41;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.15);
+        }
+        .neon-bg {
+            background-color: #00FF41;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at top right, rgba(0, 255, 65, 0.1), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(0, 255, 65, 0.05), transparent 40%);
+        }
+        .blob {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: #00FF41;
+            filter: blur(120px);
+            opacity: 0.1;
+            z-index: -1;
+        }
+        .btn-pulse {
+            animation: pulse-green 2.5s infinite;
+        }
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 65, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(0, 255, 65, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 255, 65, 0); }
+        }
+
+        /* Estilos do Modal Lead Scoring */
+        #leadModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+        #leadModal.active { display: flex; }
+        .modal-content {
+            max-width: 500px;
+            width: 100%;
+            max-height: 95vh;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+        input, select {
+            background: rgba(255,255,255,0.06) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            color: white !important;
+        }
+        input:focus, select:focus { border-color: #00FF41 !important; outline: none; }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Navegação -->
+    <nav class="fixed w-full z-50 glass-card border-b border-white/5 py-4 px-4 md:px-12 flex justify-between items-center">
+        <div class="text-xl md:text-2xl font-800 tracking-tighter">
+            REDO<span class="neon-text">CLUB</span>
+        </div>
+        <div class="hidden md:flex space-x-8 text-xs font-semibold uppercase tracking-widest text-gray-400">
+            <a href="#beneficios" class="hover:text-white transition">Benefícios</a>
+            <a href="#processo" class="hover:text-white transition">Processo</a>
+            <a href="#demonstracao" class="hover:text-white transition">Demonstração</a>
+            <a href="#faq" class="hover:text-white transition">FAQ</a>
+        </div>
+        <button onclick="toggleModal()" class="neon-bg text-black px-5 md:px-6 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase transition hover:scale-105">
+            Falar com Especialista
+        </button>
+    </nav>
+
+    <!-- Seção Hero -->
+    <section class="relative pt-32 pb-20 px-6 md:px-12 hero-gradient min-h-[85vh] flex flex-col items-center justify-center text-center">
+        <div class="blob top-20 right-20"></div>
+        <div class="blob bottom-20 left-20"></div>
+        
+        <span class="inline-block py-1 px-4 rounded-full border border-white/10 bg-white/5 text-[10px] md:text-xs font-bold tracking-[0.2em] text-gray-400 mb-8 uppercase">
+            Inteligência Artificial de Próxima Geração
+        </span>
+        
+        <h1 class="text-4xl md:text-8xl font-800 mb-8 leading-tight max-w-5xl italic tracking-tighter">
+            Venda mais e gaste menos tempo <span class="neon-text">qualificando leads</span>.
+        </h1>
+        
+        <p class="text-gray-400 text-lg md:text-2xl max-w-3xl mb-12 font-medium">
+            Transforme seu WhatsApp numa máquina de vendas 24/7 com um Agente IA humanizado que entende, qualifica e faz follow-up.
+        </p>
+        
+        <div class="w-full flex justify-center">
+            <button onclick="toggleModal()" class="neon-bg text-black w-full md:w-auto px-10 md:px-14 py-5 md:py-6 rounded-full font-800 text-lg md:text-2xl transition btn-pulse uppercase tracking-tighter">
+                Contratar meu agente IA
+            </button>
+        </div>
+    </section>
+
+    <!-- Seção Gráfico: O que acontece a cada minuto de atraso -->
+    <section class="py-20 px-4 md:px-12 bg-black border-y border-white/5">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-5xl font-800 mb-4 italic uppercase tracking-tighter">O que acontece a cada <span class="neon-text italic">minuto de atraso</span></h2>
+                <p class="text-gray-500 text-[10px] md:text-sm uppercase tracking-widest font-bold">A velocidade de resposta define o seu lucro</p>
+            </div>
+
+            <div class="glass-card p-6 md:p-12 rounded-[32px] md:rounded-[40px] border border-white/10 space-y-10">
+                <!-- 1 Minuto -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-white/10 px-2 py-1 rounded-lg text-[9px] font-bold text-white w-14 text-center">1min</div>
+                        <div class="flex-1 bg-white/5 h-3 md:h-4 rounded-full overflow-hidden">
+                            <div class="h-full bg-[#00FF41] rounded-full shadow-[0_0_10px_rgba(0,255,65,0.4)]" style="width: 95%;"></div>
+                        </div>
+                    </div>
+                    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest ml-16 md:ml-20">95% de chance de conversão</p>
+                </div>
+                <!-- 5 Minutos -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-white/10 px-2 py-1 rounded-lg text-[9px] font-bold text-white w-14 text-center">5min</div>
+                        <div class="flex-1 bg-white/5 h-3 md:h-4 rounded-full overflow-hidden">
+                            <div class="h-full bg-[#A3FF00] rounded-full" style="width: 70%;"></div>
+                        </div>
+                    </div>
+                    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest ml-16 md:ml-20">70% de chance de conversão</p>
+                </div>
+                <!-- 10 Minutos -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-white/10 px-2 py-1 rounded-lg text-[9px] font-bold text-white w-14 text-center">10min</div>
+                        <div class="flex-1 bg-white/5 h-3 md:h-4 rounded-full overflow-hidden">
+                            <div class="h-full bg-[#FFCC00] rounded-full" style="width: 40%;"></div>
+                        </div>
+                    </div>
+                    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest ml-16 md:ml-20">40% de chance de conversão</p>
+                </div>
+                <!-- 24 Horas -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-white/10 px-2 py-1 rounded-lg text-[9px] font-bold text-white w-14 text-center">24h</div>
+                        <div class="flex-1 bg-white/5 h-3 md:h-4 rounded-full overflow-hidden">
+                            <div class="h-full bg-[#8B0000] rounded-full" style="width: 12%;"></div>
+                        </div>
+                    </div>
+                    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest ml-16 md:ml-20">12% de chance de conversão</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Benefícios -->
+    <section id="beneficios" class="py-24 px-6 md:px-12 bg-[#080808]">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-5xl font-800 mb-4 italic uppercase tracking-tighter">Acelerando seu <span class="neon-text italic">Funil de Vendas</span></h2>
+            <p class="text-gray-400 max-w-2xl mx-auto text-sm md:text-base font-medium">Troque o atendimento manual ineficiente por uma estrutura inteligente que escala infinitamente.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
+            <div class="glass-card p-8 rounded-3xl neon-border group">
+                <div class="w-12 h-12 bg-neon-bg/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-neon-bg/30 transition">
+                    <i class="fa-solid fa-bolt text-neon-text text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 italic tracking-tight uppercase">Disponibilidade Total</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Atendimento instantâneo 24/7. Responda seu lead no momento em que ele chega, eliminando a espera que mata conversões.</p>
+            </div>
+            <div class="glass-card p-8 rounded-3xl neon-border group">
+                <div class="w-12 h-12 bg-neon-bg/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-neon-bg/30 transition">
+                    <i class="fa-solid fa-microphone-lines text-neon-text text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 italic tracking-tight uppercase">Humanização Real</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Uso de atraso na digitação, mensagens espaçadas, entende áudio e responde com voz natural que gera conexão verdadeira.</p>
+            </div>
+            <div class="glass-card p-8 rounded-3xl neon-border group">
+                <div class="w-12 h-12 bg-neon-bg/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-neon-bg/30 transition">
+                    <i class="fa-solid fa-brain text-neon-text text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 italic tracking-tight uppercase">Dados de Precisão</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Treinada com seus dados reais. Consulta tabelas de preços e calendários oficiais com precisão absoluta, sem erros.</p>
+            </div>
+            <div class="glass-card p-8 rounded-3xl neon-border group">
+                <div class="w-12 h-12 bg-neon-bg/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-neon-bg/30 transition">
+                    <i class="fa-solid fa-filter text-neon-text text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 italic tracking-tight uppercase">Qualificação de Elite</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">A IA assume a triagem inicial, filtrando os curiosos e entregando apenas oportunidades prontas para o comercial fechar.</p>
+            </div>
+            <div class="glass-card p-8 rounded-3xl neon-border group">
+                <div class="w-12 h-12 bg-neon-bg/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-neon-bg/30 transition">
+                    <i class="fa-solid fa-calendar-check text-neon-text text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 italic tracking-tight uppercase">Follow-up Automático</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Monitora o silêncio e retoma o contato estrategicamente, garantindo que nenhum lead seja esquecido pelo seu time.</p>
+            </div>
+            <div class="glass-card p-8 rounded-3xl neon-border group">
+                <div class="w-12 h-12 bg-neon-bg/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-neon-bg/30 transition">
+                    <i class="fa-solid fa-database text-neon-text text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 italic tracking-tight uppercase">Integração Total</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Sincronização imediata com CRM (Kommo, Pipedrive). Tenha histórico completo e dados organizados sem esforço manual.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Processo (Dashboard de Implementação 3 Semanas) -->
+    <section id="processo" class="py-24 px-6 md:px-12 bg-black">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-6xl font-800 mb-6 leading-tight italic uppercase tracking-tighter">Cronograma de <span class="neon-text italic">Implementação</span></h2>
+                <p class="text-gray-400 max-w-xl mx-auto text-sm uppercase tracking-widest font-bold">Entrega completa e funcional em 21 dias</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <!-- Semana 1 -->
+                <div class="glass-card p-8 rounded-[40px] border border-white/10 flex flex-col justify-between hover:border-neon-bg/30 transition">
+                    <div>
+                        <div class="flex justify-between items-start mb-8">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Etapa 01</span>
+                            <span class="neon-text font-bold text-xs">Semana 1</span>
+                        </div>
+                        <h4 class="text-2xl font-bold mb-4 italic uppercase tracking-tighter">Criação & <br>Arquitetura</h4>
+                        <ul class="text-gray-400 text-sm space-y-3 mb-8">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-text text-[10px]"></i> Mapeamento de Processos</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-text text-[10px]"></i> Design da Lógica da IA</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-text text-[10px]"></i> Conexão com Canais</li>
+                        </ul>
+                    </div>
+                    <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+                        <div class="h-full bg-neon-bg" style="width: 100%;"></div>
+                    </div>
+                </div>
+
+                <!-- Semana 2 -->
+                <div class="glass-card p-8 rounded-[40px] border border-white/10 flex flex-col justify-between hover:border-neon-bg/30 transition">
+                    <div>
+                        <div class="flex justify-between items-start mb-8">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Etapa 02</span>
+                            <span class="neon-text font-bold text-xs">Semana 2</span>
+                        </div>
+                        <h4 class="text-2xl font-bold mb-4 italic uppercase tracking-tighter">Treinamento & <br>Integração</h4>
+                        <ul class="text-gray-400 text-sm space-y-3 mb-8">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-text text-[10px]"></i> Alimentação de Dados (RAG)</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-text text-[10px]"></i> Integração com CRM/API</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-neon-text text-[10px]"></i> Testes de Raciocínio</li>
+                        </ul>
+                    </div>
+                    <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+                        <div class="h-full bg-neon-bg" style="width: 100%;"></div>
+                    </div>
+                </div>
+
+                <!-- Semana 3 -->
+                <div class="glass-card p-8 rounded-[40px] border border-neon-bg/50 bg-neon-bg/5 flex flex-col justify-between relative overflow-hidden group">
+                    <div class="absolute -right-8 -top-8 text-8xl text-neon-text opacity-5 group-hover:scale-110 transition duration-700"><i class="fa-solid fa-rocket"></i></div>
+                    <div>
+                        <div class="flex justify-between items-start mb-8">
+                            <span class="text-[10px] font-bold uppercase tracking-widest neon-text">Etapa Final</span>
+                            <span class="neon-text font-bold text-xs">Semana 3</span>
+                        </div>
+                        <h4 class="text-2xl font-bold mb-4 italic uppercase tracking-tighter">Go-Live & <br>Acompanhamento</h4>
+                        <ul class="text-gray-400 text-sm space-y-3 mb-8">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-bolt text-neon-text text-[10px]"></i> Lançamento Oficial</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-magnifying-glass text-neon-text text-[10px]"></i> Monitoramento de Respostas</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-chart-line text-neon-text text-[10px]"></i> Otimização Contínua</li>
+                        </ul>
+                    </div>
+                    <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                        <div class="h-full bg-neon-bg animate-pulse shadow-[0_0_10px_#00FF41]" style="width: 45%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Vídeo: IA em Ação -->
+    <section id="demonstracao" class="py-24 px-4 md:px-12 bg-black border-t border-white/5 text-center">
+        <h2 class="text-4xl md:text-6xl font-800 mb-12 italic uppercase tracking-tighter">Veja a <span class="neon-text italic">IA em ação</span></h2>
+        <div class="max-w-5xl mx-auto glass-card p-4 rounded-[32px] md:rounded-[40px] border border-white/10 group">
+            <div class="aspect-video bg-white/5 rounded-[24px] md:rounded-[32px] flex items-center justify-center overflow-hidden">
+                <div class="text-center group-hover:scale-110 transition duration-500">
+                    <i class="fa-solid fa-play text-5xl md:text-7xl text-neon-text mb-4 opacity-40 group-hover:opacity-100 transition"></i>
+                    <p class="text-gray-500 font-mono text-[10px] md:text-sm uppercase tracking-widest">Demonstração Atendimento Real</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção CTA Final -->
+    <section class="relative py-32 px-6 md:px-12 bg-black text-center overflow-hidden border-t border-white/5">
+        <div class="blob top-0 left-1/2 -translate-x-1/2 scale-150"></div>
+        <div class="relative z-10">
+            <h2 class="text-4xl md:text-7xl font-900 mb-8 leading-tight italic uppercase tracking-tighter">O futuro do seu comercial <br>está a <span class="neon-text">um clique</span>.</h2>
+            <p class="text-gray-400 text-lg md:text-3xl font-bold mb-16 max-w-4xl mx-auto italic leading-snug">
+                Aumente a satisfação de seu cliente, seu ticket médio e recupere leads perdidos.
+            </p>
+            <button onclick="toggleModal()" class="neon-bg text-black w-full md:w-auto px-16 py-7 rounded-full font-900 text-xl transition hover:scale-105 inline-block uppercase tracking-tighter btn-pulse">
+                Contratar meu agente IA
+            </button>
+        </div>
+    </section>
+
+    <!-- Principais Dúvidas (Antigo FAQ) -->
+    <section id="faq" class="py-24 px-6 md:px-12 max-w-4xl mx-auto">
+        <h2 class="text-4xl font-800 text-center mb-16 uppercase tracking-widest italic tracking-tighter">Principais <span class="text-neon-text italic">Dúvidas</span></h2>
+        <div class="space-y-6">
+            <details class="glass-card p-8 rounded-[24px] md:rounded-[32px] group cursor-pointer" open>
+                <summary class="font-bold flex justify-between items-center list-none uppercase text-xs md:text-sm tracking-widest">
+                    A IA pode substituir meus vendedores?
+                    <span class="neon-text transition-transform group-open:rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
+                </summary>
+                <p class="mt-4 text-gray-400 text-sm md:text-base leading-relaxed">Ela potencializa o seu time. A IA assume o trabalho repetitivo e de triagem, deixando seus vendedores humanos focados 100% no fechamento de negócios qualificados.</p>
+            </details>
+            <details class="glass-card p-8 rounded-[24px] md:rounded-[32px] group cursor-pointer">
+                <summary class="font-bold flex justify-between items-center list-none uppercase text-xs md:text-sm tracking-widest">
+                    Como a IA responde perguntas específicas?
+                    <span class="neon-text transition-transform group-open:rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
+                </summary>
+                <p class="mt-4 text-gray-400 text-sm md:text-base leading-relaxed">Usamos tecnologia RAG. Treinamos o agente com seus manuais e tabelas. Ela não inventa; ela consulta sua base de dados oficial em tempo real.</p>
+            </details>
+            <details class="glass-card p-8 rounded-[24px] md:rounded-[32px] group cursor-pointer">
+                <summary class="font-bold flex justify-between items-center list-none uppercase text-xs md:text-sm tracking-widest">
+                    O atendimento não fica robotizado?
+                    <span class="neon-text transition-transform group-open:rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
+                </summary>
+                <p class="mt-4 text-gray-400 text-sm md:text-base leading-relaxed">Nossa IA simula comportamentos humanos: ela pausa para "digitar", usa linguagem coloquial e pode enviar áudios. 95% dos clientes não percebem a diferença.</p>
+            </details>
+            <details class="glass-card p-8 rounded-[24px] md:rounded-[32px] group cursor-pointer">
+                <summary class="font-bold flex justify-between items-center list-none uppercase text-xs md:text-sm tracking-widest">
+                    Meus dados estão seguros?
+                    <span class="neon-text transition-transform group-open:rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
+                </summary>
+                <p class="mt-4 text-gray-400 text-sm md:text-base leading-relaxed">Segurança absoluta. Seus dados são processados em ambientes criptografados e privados, respeitando rigorosamente a LGPD.</p>
+            </details>
+            <details class="glass-card p-8 rounded-[24px] md:rounded-[32px] group cursor-pointer">
+                <summary class="font-bold flex justify-between items-center list-none uppercase text-xs md:text-sm tracking-widest">
+                    Em quanto tempo vejo o retorno (ROI)?
+                    <span class="neon-text transition-transform group-open:rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
+                </summary>
+                <p class="mt-4 text-gray-400 text-sm md:text-base leading-relaxed">O retorno é percebido já no primeiro mês através da recuperação de leads que antes eram ignorados e do aumento da produtividade comercial.</p>
+            </details>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 md:px-12 border-t border-white/5 text-center bg-black relative">
+        <div class="text-3xl font-800 mb-8 italic tracking-tighter">REDO<span class="neon-text italic">CLUB</span></div>
+        <p class="text-gray-600 text-[10px] uppercase tracking-widest font-bold">&copy; 2025 RedoClub Inteligência Artificial. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- MODAL DE LEAD SCORING -->
+    <div id="leadModal" onclick="if(event.target === this) toggleModal()">
+        <div class="modal-content glass-card p-6 md:p-12 rounded-[32px] md:rounded-[40px] border border-white/10 relative">
+            <button onclick="toggleModal()" class="absolute top-6 right-6 text-gray-500 hover:text-white transition text-2xl">&times;</button>
+            <div id="formContainer">
+                <div class="text-center mb-8">
+                    <h3 class="text-2xl md:text-3xl font-800 italic uppercase italic tracking-tighter mb-2">Configure sua <span class="neon-text italic">IA</span></h3>
+                    <p class="text-gray-400 text-[10px] md:text-xs uppercase font-bold tracking-widest">Receba um diagnóstico gratuito do seu comercial</p>
+                </div>
+                <form id="redoForm" class="space-y-4 md:space-y-5" onsubmit="handleFormSubmit(event)">
+                    <div>
+                        <input type="text" required class="w-full px-5 py-4 rounded-2xl text-xs md:text-sm" placeholder="Seu Nome Completo">
+                    </div>
+                    <div>
+                        <input type="tel" required class="w-full px-5 py-4 rounded-2xl text-xs md:text-sm" placeholder="WhatsApp para Contato">
+                    </div>
+                    <div>
+                        <select required class="w-full px-5 py-4 rounded-2xl text-xs md:text-sm appearance-none">
+                            <option value="" disabled selected>Volume médio de leads/mês</option>
+                            <option value="0-50">Até 50 leads</option>
+                            <option value="51-200">51 a 200 leads</option>
+                            <option value="1000+">Mais de 1.000 leads</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select required class="w-full px-5 py-4 rounded-2xl text-xs md:text-sm appearance-none">
+                            <option value="" disabled selected>Tamanho do seu time comercial</option>
+                            <option value="1">Só eu</option>
+                            <option value="2-10">2 a 10 pessoas</option>
+                            <option value="10+">Time grande (+10)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select required class="w-full px-5 py-4 rounded-2xl text-xs md:text-sm appearance-none">
+                            <option value="" disabled selected>Ferramenta de CRM atual</option>
+                            <option value="nenhum">Nenhuma / Planilha</option>
+                            <option value="kommo">Kommo CRM</option>
+                            <option value="rd">RD Station</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="neon-bg text-black w-full py-4 md:py-5 rounded-full font-900 text-sm md:text-lg uppercase transition hover:brightness-110 tracking-tighter">
+                        Solicitar Diagnóstico
+                    </button>
+                </form>
+            </div>
+            <div id="successMessage" class="hidden text-center py-10">
+                <i class="fa-solid fa-check-circle text-6xl neon-text mb-6"></i>
+                <h3 class="text-2xl font-800 italic uppercase mb-4 tracking-tighter">Diagnóstico <span class="neon-text italic">Solicitado!</span></h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Nossa equipe analisará seus dados e entrará em contato em breve via WhatsApp.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleModal() {
+            const modal = document.getElementById('leadModal');
+            modal.classList.toggle('active');
+            document.body.style.overflow = modal.classList.contains('active') ? 'hidden' : 'auto';
+        }
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            document.getElementById('formContainer').classList.add('hidden');
+            document.getElementById('successMessage').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
